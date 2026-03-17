@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Meeting Assistant</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 Smart AI Meeting Assistant</h1>
+
+    <form method="POST">
+
+        <label>Paste Meeting Transcript</label>
+        <textarea name="transcript" placeholder="Enter meeting discussion..." required></textarea>
+
+        <button type="submit">Generate Minutes</button>
+
+    </form>
+
+    {% if output %}
+    <div class="output">
+        <h2>📋 Meeting Minutes</h2>
+
+        <div id="resultBox">{{output | safe}}</div>
+
+        <div class="buttons">
+            <button onclick="copyText()">📋 Copy</button>
+            <button onclick="downloadText()">⬇ Download</button>
+        </div>
+    </div>
+
+    <script>
+    function copyText() {
+        let text = document.getElementById("resultBox").innerText;
+        navigator.clipboard.writeText(text);
+        alert("Copied to clipboard!");
+    }
+
+    function downloadText() {
+        let text = document.getElementById("resultBox").innerText;
+        let blob = new Blob([text], { type: "text/plain" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "meeting_minutes.txt";
+        link.click();
+    }
+    </script>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
